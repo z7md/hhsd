@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      (function () {
+        // Save the full path (pathname + query + hash)
+        const path = window.location.pathname + window.location.search + window.location.hash;
+        localStorage.setItem("redirect_path", path);
+        // Redirect to root where React app will handle it
+        window.location.replace("/");
+      })();
+    </script>
+  </head>
+  <body>
+    <p>Redirecting...</p>
+  </body>
+</html>
