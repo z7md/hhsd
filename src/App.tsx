@@ -9,7 +9,7 @@ import Test from "./pages/Test";
 const App = () => {
 
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename="hhsd">
 				<Routes>
 					<Route path="/" element={<Home />} />
 					<Route path="/item1" element={<Item1 />} />

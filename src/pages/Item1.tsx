@@ -19,7 +19,6 @@ const Item = () => {
   }, [car, navigate]);
 
   const today = new Date().toISOString().split("T")[0];
-  const [quan, setQuan] = useState(1);
   const [showMapTooltip, setShowMapTooltip] = useState(false);
 
   const {
@@ -233,7 +232,7 @@ const Item = () => {
           <span
             className="mt-1 w-full h-[60px] px-3 font-bold text-center flex justify-center items-center text-text bg-primary rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:brightness-90 hover:shadow-lg"
             onClick={() => {
-              const phone = "966553116613";
+              const phone = "966505977705";
               const mapLink = customLocation
                 ? `https://www.google.com/maps?q=${customLocation.lat},${customLocation.lng}`
                 : "لا يوجد موقع محدد";

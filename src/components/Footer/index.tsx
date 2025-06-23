@@ -39,7 +39,7 @@ const Footer: FC = () => {
             <motion.div variants={fadeIn("up", 0.6)} className="flex gap-4">
               <motion.a
                 whileHover={{ scale: 1.1 }}
-                href="tel:+966553116613"
+                href="tel:+966505977705"
                 className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 hover:bg-red-600 hover:text-white transition-colors"
                 aria-label="Call Us" // Added aria-label
               >
@@ -47,7 +47,7 @@ const Footer: FC = () => {
               </motion.a>
               <motion.a
                 whileHover={{ scale: 1.1 }}
-                href="https://wa.me/966553116613"
+                href="https://wa.me/966505977705"
                 className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-gray-600 hover:bg-green-500 hover:text-white transition-colors"
                 aria-label="Chat with us on WhatsApp" // Added aria-label
               >

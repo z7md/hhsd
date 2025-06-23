@@ -74,7 +74,7 @@ const Navbar: React.FC = () => {
           whileTap={{ scale: 0.95 }}
           className="hidden md:block bg-primary text-white px-6 py-2.5 rounded-lg hover:shadow-primary text-sm font-medium transition-all hover:shadow-lg cursor-pointer"
         >
-          <a href="tel:+966553116613">اتصل بنا الآن</a>
+          <a href="tel:+966505977705">اتصل بنا الآن</a>
         </motion.button>
       </div>
 
@@ -113,7 +113,7 @@ const Navbar: React.FC = () => {
               variants={fadeIn("up", 0.4)}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              href="tel:+966553116613"
+              href="tel:+966505977705"
               className="w-full bg-primary text-white px-6 py-2.5 rounded-lg hover:opacity-60 text-sm font-medium transition-all hover:shadow-lg hover:shadow-primary text-center block"
             >
               اتصل بنا الآن

@@ -1,5 +1,4 @@
 
-import t1 from "../assets/images/hawe1.webp";
 import t2 from "../assets/images/hawe2.webp";
 import t3 from "../assets/images/sa.webp";
 import t4 from "../assets/images/tesla.png";
@@ -183,16 +182,16 @@ export const services = [
 ];
 
 export const links = [
-  { label: "الصفحة الرئيسية", href: "#home" },
-  { label: "أطلب سيارة", href: "#booking" },
+  { label: "الصفحة الرئيسية", href: "/hhsd#home" },
+  { label: "أطلب سيارة", href: "/hhsd#booking" },
   // { label: "من نحن", href: "#about" },
-  { label: "أراء العملاء", href: "#testimonials" },
+  { label: "أراء العملاء", href: "/hhsd#testimonials" },
 ];
 export const links1 = [
   { label: "الصفحة الرئيسية", href: "/" },
-  { label: "أطلب سيارة", href: "/booking" },
+  { label: "أطلب سيارة", href: "/hhsd/booking" },
   // { label: "من نحن", href: "/about" },
-  { label: "أراء العملاء", href: "/testimonials" },
+  { label: "أراء العملاء", href: "/hhsd/testimonials" },
 ];
 export const selects = [
   {

@@ -118,7 +118,7 @@ const Types: FC = () => {
               {/* زر الطلب */}
               <div>
                 <button
-                  onClick={() => navigate("/item1", { state: item })}
+                  onClick={() => navigate("/hhsd/item1", { state: item })}
                   className="bg-primary text-white font-bold py-2 px-6 rounded-lg transition hover:scale-105 hover:bg-[#8e6417] text-xl"
                 >
                   احجز الآن
