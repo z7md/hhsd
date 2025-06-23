@@ -1,6 +1,6 @@
 
-import t2 from "../assets/images/hawe2.webp";
-import t3 from "../assets/images/sa.webp";
+import t2 from "../assets/images/rb3.png";
+import t3 from "../assets/images/bronco.png";
 import t4 from "../assets/images/tesla.png";
 // import t3 from "../assets/images/t3.png";
 // import t4 from "../assets/images/t4.png";
@@ -60,7 +60,7 @@ export const steps = [
 
 export const types = [
   {
-    title: "هيونداي جراند i10",
+    title: "برونكو",
     year: "2024",
     image: t3,
     priceBefore: 175,
@@ -71,7 +71,7 @@ export const types = [
     doors: 4,
     transmission: "A", // أو "M"
     ac: true,
-    type: "اقتصادية"
+    type: "جيب"
   },
   {
     title: "كيا بيجاس",
@@ -88,18 +88,18 @@ export const types = [
     type: "اقتصادية"
   },
     {
-    title: "اكورد",
-    year: "2020",
+    title: "ربع",
+    year: "2025",
     image: t2,
-    priceBefore: 300,
-    priceAfter: 157.5,
+    priceBefore: 2000,
+    priceAfter: 1500,
     freeKm: 400,
-    passengers: 5,
+    passengers: 4,
     bags: 2,
-    doors: 4,
+    doors: 2,
     transmission: "A",
     ac: true,
-    type: "داشرة"
+    type: "جيب"
   },
       {
     title: "سوبر ترك",
@@ -113,7 +113,7 @@ export const types = [
     doors: 2,
     transmission: "A",
     ac: true,
-    type: "واو"
+    type: "تيسلا"
   },
 ];
 
