@@ -1,44 +1,39 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { fadeIn } from "../../utils/motion";
-import heroImage from "../../assets/images/Heroii.webp"; // Optimized image in WebP format
+import heroImage from "../../assets/images/Vector.png"; // Optimized image in WebP format
 
 const Hero = () => {
   return (
-    <section
-      id="home"
-      className="flex flex-col md:flex-row justify-between items-center px-4 sm:px-6 lg:px-8 pt-44 pb-16 container mx-auto"
-      style={{
-        backgroundImage: `url(${heroImage})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed', 
-        position: 'relative',
-        height: '100vh',
-        width: "100vw",
-      }}
-    >
+<section
+  id="home"
+  className="flex flex-col md:flex-row justify-between items-center px-4 pt-44 pb-16 container mx-auto"
+  style={{
+    backgroundImage: `url(${heroImage})`,
+    backgroundSize: "contain", // Ensure the whole image is visible
+    backgroundPosition: "center",
+    height: "100vh", // Keeps the section full height
+    width: "100%",
+  }}
+>
       {/* Overlay to enhance text visibility */}
-      <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-0"></div>
+      <div className="absolute top-0 left-0 w-full h-[100%] bg-black opacity-50 z-0"></div>
 
       {/* Left Column */}
       <div className="w-full md:w-1/2 space-y-8 relative z-10">
         <h1
-
           initial="hidden"
           whileInView="show"
-          className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-text"
         >
-          <span className="text-[#22257e] relative inline-block p-2">
-            مع مثرى {"    "}
+          <span className="text-primary relative inline-block p-2">
+            مع حشد {"    "}
           </span>
-          ، أحجز حاويتك بسرعة وبسهولة!
+          ، أحجز سيارتك بسرعة وبسهولة!
         </h1>
 
-        <p
-          className="text-white text-lg md:text-xl max-w-xl"
-        >
-          خدمة احترافية ، أسعار منافسة ، أطلب حاويتك الآن
+        <p className="text-white text-lg md:text-xl max-w-xl">
+          خدمة احترافية ، أسعار منافسة ، أطلب سيارتك الآن
         </p>
 
         <motion.div

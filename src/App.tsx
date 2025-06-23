@@ -4,7 +4,7 @@ import Item1 from "./pages/Item1";
 import Item2 from "./pages/Item2";
 import About from "./pages/About";
 import Book from "./pages/Book";
-// import Test1 from "./pages/Test";
+import Test from "./pages/Test";
 
 const App = () => {
 
@@ -16,7 +16,7 @@ const App = () => {
 					<Route path="/item2" element={<Item2 />} />
 					<Route path="/about" element={<About />} />
 					<Route path="/booking" element={<Book />} />
-					{/* <Route path="/mathraa/testimonials" element={<Test1 />} /> */}
+					<Route path="/testimonials" element={<Test />} />
 				</Routes>
 				</BrowserRouter>
 	);

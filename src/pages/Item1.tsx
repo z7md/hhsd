@@ -1,29 +1,37 @@
-import Footer from "../components/Footer";
-import t2 from "../assets/images/hawe1.png";
-import Navbar2 from "../components/Header/Navbar2";
 import { useEffect, useState } from "react";
-import { useRental } from "../context/RentalContext";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-//@ts-expect-error dsff
-import { fadeIn, } from "../utils/motion";
+import Footer from "../components/Footer";
+import Navbar2 from "../components/Header/Navbar2";
 import MapSelector from "../components/MapSelector";
-import "../index.css";
-const Item1 = () => {
+import { useRental } from "../context/RentalContext";
+// @ts-expect-error
+import { fadeIn } from "../utils/motion";
+
+const Item = () => {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const car = state;
+
   useEffect(() => {
+    if (!car) navigate("/");
     window.scrollTo(0, 0);
-  }, []);
+  }, [car, navigate]);
+
   const today = new Date().toISOString().split("T")[0];
+  const [quan, setQuan] = useState(1);
   const [showMapTooltip, setShowMapTooltip] = useState(false);
+
   const {
     rentalDate,
+    returnDate,
     location,
     setRentalDate,
+    setReturnDate,
     setLocation,
     setCustomLocation,
     customLocation,
   } = useRental();
-
-  const [quan, setQuan] = useState(1);
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -38,7 +46,6 @@ const Item1 = () => {
                 setCustomLocation({ lat, lng });
               },
               (error) => {
-                console.error("Error getting location:", error);
                 alert("لم نتمكن من تحديد موقعك. " + error.message);
               }
             );
@@ -51,10 +58,10 @@ const Item1 = () => {
 
   useEffect(() => {
     if (location === "حدد على الخريطة") {
-      setShowMapTooltip(true); // Show tooltip when the user selects "حدد على الخريطة"
+      setShowMapTooltip(true);
       getCurrentLocation();
     } else {
-      setShowMapTooltip(false); // Hide tooltip when the location is not "حدد على الخريطة"
+      setShowMapTooltip(false);
     }
   }, [location]);
 
@@ -62,157 +69,188 @@ const Item1 = () => {
     setShowMapTooltip(false);
   };
 
-  const types = [
-    { title: "20 ياردة", price: "250 ريال", image: t2, type: "نوع 1" },
-  ];
+  if (!car) return null;
 
   return (
-    <div className="w-full flex flex-col almarai-extrabold justify-center items-center ">
+    <div className="w-full flex flex-col almarai-extrabold justify-center items-center bg-background text-text">
       <Navbar2 />
+
       <motion.div
-        className="w-[full] flex flex-col gap-5 px-5 py-10"
+        className="w-full flex flex-col gap-5 px-5 py-10 justify-center items-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
         <h1 className="text-[34px] lg:text-[63px] font-bold text-center text-primary mt-[81px]">
-          أحجز حاويتك الآن
+          أحجز سيارتك الآن
         </h1>
 
-        <div className="w-full flex flex-wrap justify-center gap-5">
-          {types.map((item, index: number) => (
-            <motion.div
-              key={index}
-              variants={fadeIn("up", 0.2 * index)}
-              initial="hidden"
-              whileInView="show"
-              viewport={{ once: true }}
-              className="flex flex-col items-center justify-center gap-2 w-full md:w-[48%] lg:w-auto"
+        {/* عرض السيارة (تصميم محسّن) */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+          className="w-full max-w-xl rounded-2xl overflow-hidden border border-border bg-surface shadow-lg transition-all duration-300 hover:shadow-2xl"
+        >
+          {/* صورة السيارة */}
+          <div className="relative h-[230px] flex items-center justify-center bg-section">
+            <img
+              src={car.image}
+              alt={car.title}
+              className="h-full object-contain transition-transform duration-300 hover:scale-105 cursor-pointer"
+              onClick={() => navigate("/item", { state: car })}
+            />
+            <div className="absolute top-4 left-4 bg-primary text-text text-sm font-bold px-4 py-1 rounded-lg shadow-md">
+              {car.priceAfter} ريال / يوم
+            </div>
+          </div>
+
+          {/* تفاصيل السيارة */}
+          <div className="p-5 text-right space-y-3">
+            <h2 className="text-2xl font-bold text-text">
+              {car.title} - {car.year}
+            </h2>
+            <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm leading-relaxed text-subtext">
+              <div>👥 الركاب: {car.passengers}</div>
+              <div>🧳 الشنط: {car.bags}</div>
+              <div>🚪 الأبواب: {car.doors}</div>
+              <div>
+                ⚙️ الجير: {car.transmission === "A" ? "أوتوماتيك" : "عادي"}
+              </div>
+              <div>❄️ مكيف: {car.ac ? "نعم" : "لا"}</div>
+              <div>📏 المسافة المجانية: {car.freeKm} كم</div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* الحقول */}
+        <div className="flex flex-col gap-5 w-full lg:w-[70%]">
+          {/* تاريخ الإيجار */}
+          <div className="flex flex-col gap-2">
+            <label className="text-primary font-medium">تاريخ الإيجار</label>
+            <input
+              type="date"
+              min={today}
+              value={rentalDate}
+              onChange={(e) => setRentalDate(e.target.value)}
+              className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label className="text-primary font-medium">تاريخ الإرجاع</label>
+            <input
+              type="date"
+              min={today}
+              value={returnDate}
+              onChange={(e) => setReturnDate(e.target.value)}
+              className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text"
+            />
+          </div>
+
+          {/* الموقع */}
+          <div className="flex flex-col gap-2">
+            <label className="text-primary font-medium">الموقع</label>
+            <select
+              value={location}
+              onChange={(e) => {
+                const selected = e.target.value;
+                setLocation(selected);
+                setCustomLocation(null);
+
+                if (selected === "حدد على الخريطة") {
+                  getCurrentLocation();
+                  setShowMapTooltip(true);
+                } else {
+                  setShowMapTooltip(false);
+                }
+              }}
+              className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text cursor-pointer appearance-none"
             >
-              <div className="relative rounded-lg shadow-lg transition-transform duration-300 ease-in-out hover:scale-105 hover:shadow-xl ">
-                <img
-                  src={item.image}
-                  alt={item.title}
-                  className="lg:h-[210px] w-full "
-                />
-                {/* Price Overlay */}
-                <div className="absolute left-4 mt-[10px] bg-primary text-white text-lg font-semibold px-3 py-2 rounded-lg shadow-md">
-                  {item.price}
-                </div>
-              </div>
-              <span className="font-bold text-title text-[22px]">
-                {item.title}
-              </span>
-              {/* <div className="text-secondary">
-                <span className="font-semibold text-lg">{item.price}</span>
-              </div> */}
-            </motion.div>
-          ))}
-        </div>
-        {/* Input Fields Section */}
-        <div className="flex flex-col gap-5">
-          <div className="w-full flex flex-col lg:flex-row gap-5">
-            {/* Rental Date */}
-            <div className="flex flex-col w-full gap-2">
-              <span className="text-primary font-medium ">تاريخ الاجار</span>
-              <input
-                type="date"
-                min={today}
-                value={rentalDate}
-                onChange={(e) => setRentalDate(e.target.value)}
-                className="w-full h-[60px] rounded px-3 outline-none bg-white border border-primary text-primary text-right "
-              />
-            </div>
+              <option value="اختر الموقع" disabled>
+                اختر الموقع
+              </option>
+              <option value="الاستلام من الفرع">الاستلام من الفرع</option>
+              <option value="حدد على الخريطة">خدمة التوصيل</option>
+            </select>
           </div>
 
-          {/* Location */}
-          <div className="flex flex-col w-full gap-2 mt-5">
-            <span className="text-primary  font-medium">الموقع</span>
-            <div className="relative w-full">
-              <select
-                value={location}
-                onChange={(e) => {
-                  const selected = e.target.value;
-                  setLocation(selected);
-                  if (selected === "حدد على الخريطة") {
-                    setCustomLocation(null); // سيختار المستخدم من الخريطة
-                  } else {
-                    setCustomLocation(null); // لا شيء محدد
-                  }
-                }}
-                className="w-full h-[60px] rounded px-3 outline-none bg-white border-primary text-primary cursor-pointer appearance-none text-right border"
-              >
-                <option value="اختر الموقع" disabled>
-                  اختر الموقع
-                </option>
-                <option value="حدد على الخريطة">حدد على الخريطة</option>
-              </select>
-
-              {/* Quantity Selector */}
-              <div className="flex flex-col w-full gap-2 mt-5">
-                <label className="text-primary font-medium">الكمية</label>
-                <select
-                  value={quan}
-                  onChange={(e) => setQuan(Number(e.target.value))}
-                  className="w-full h-[60px] rounded px-3 outline-none bg-white border-primary text-primary cursor-pointer text-right border"
-                >
-                  {Array.from({ length: 20 }, (_, i) => (
-                    <option key={i + 1} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-          </div>
-
-          {/* Map Display */}
+          {/* عرض موقع المستخدم على الخريطة */}
           {location === "حدد على الخريطة" && (
-            <div className="w-full h-[300px] rounded overflow-hidden mt-3">
+            <div className="w-full h-[300px] rounded overflow-hidden mt-3 relative">
               {showMapTooltip && (
                 <div
-                  className="fixed top-0 left-0 w-full bg-yellow-500 text-center text-white p-2 flex z-[100]"
+                  className="fixed top-0 left-0 w-full bg-alert text-text p-2 flex z-[100] cursor-pointer"
                   onClick={handleTooltipClose}
                 >
                   <span className="mr-6">
                     إذا قمت بالنقر مرتين على الخريطة، سيتم تحديد الموقع الحالي.
                   </span>
                   <button
+                    className="fixed top-0 right-0 text-text font-bold text-3xl mr-2"
                     onClick={handleTooltipClose}
-                    className="fixed top-0 right-0 text-white font-bold text-3xl mr-2"
                   >
                     ×
                   </button>
                 </div>
               )}
-              {location === "حدد على الخريطة" ? (
+              <h2 className="text-2xl font-bold text-primary mb-4 text-center">
+                حدد موقع التوصيل
+              </h2>
+
+              <div className="w-full h-[300px]">
                 <MapSelector
                   onSelect={(lat, lng) => setCustomLocation({ lat, lng })}
                 />
-              ) : (
-                <MapSelector fixedLocation={{ lat: 26.32599, lng: 43.97497 }} />
-              )}
+              </div>
             </div>
           )}
+
+          {/* عرض موقع الفرع الثابت */}
+          {location === "الاستلام من الفرع" && (
+            <div className="w-full mt-3 flex flex-col gap-3 text-right">
+              {/* خريطة الفرع الثابتة */}
+              <div className="h-[300px] rounded overflow-hidden border border-border">
+                <MapSelector fixedLocation={{ lat: 24.7136, lng: 46.6753 }} />
+              </div>
+
+              {/* رابط خرائط Google */}
+              <div className="text-primary text-lg mt-2">
+                <p className="font-semibold">📍 موقع الفرع:</p>
+                <p>الفرع الرئيسي - طريق الملك فهد، الرياض</p>
+                <a
+                  href="https://www.google.com/maps?q=24.7136,46.6753"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent underline inline-block mt-1"
+                >
+                  فتح الموقع في خرائط Google
+                </a>
+              </div>
+            </div>
+          )}
+
+          {/* زر واتساب */}
           <span
-            className="mt-1 w-full h-[60px] px-3 font-bold text-center flex justify-center items-center text-white bg-primary  rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 ease-in-out hover:bg-primary-dark hover:shadow-lg"
+            className="mt-1 w-full h-[60px] px-3 font-bold text-center flex justify-center items-center text-text bg-primary rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:brightness-90 hover:shadow-lg"
             onClick={() => {
               const phone = "966553116613";
               const mapLink = customLocation
                 ? `https://www.google.com/maps?q=${customLocation.lat},${customLocation.lng}`
                 : "لا يوجد موقع محدد";
 
-                const message = `**طلب حجز حاوية**
+              const message = `**طلب حجز سيارة**
 
-*رابط الموقع:* ${mapLink}
-                
+*النوع:* ${car.title} - ${car.year}
+*السعر:* ${car.priceAfter} ريال
 *تاريخ الإيجار:* ${rentalDate}
-                
-*نوع الحاوية:* 20 ياردة
-                
-*الكمية المطلوبة:* ${quan}
-                
-تم إرسال هذا الطلب من الموقع.`;
+*تاريخ الإرجاع:* ${returnDate}
+*الموقع:* ${
+                location === "الاستلام من الفرع"
+                  ? "الاستلام من الفرع - طريق الملك فهد، الرياض"
+                  : mapLink
+              }
+
+تم الإرسال من الموقع.`;
 
               const url = `https://wa.me/${phone}?text=${encodeURIComponent(
                 message
@@ -224,9 +262,10 @@ const Item1 = () => {
           </span>
         </div>
       </motion.div>
+
       <Footer />
     </div>
   );
 };
 
-export default Item1;
+export default Item;

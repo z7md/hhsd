@@ -9,7 +9,7 @@ const Test1 = () => {
     window.scrollTo(0, 0);
   }, []);
   return (
-    <div className="w-full flex flex-col almarai-extrabold">
+    <div className="w-full flex flex-col almarai-extrabold bg-background">
       <Navbar2 />
 
       <Test />

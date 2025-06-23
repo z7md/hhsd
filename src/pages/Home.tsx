@@ -1,5 +1,5 @@
 import Footer from "../components/Footer";
-// import Test from "../components/Footer/Test";
+import Test from "../components/Footer/Test";
 import Navbar from "../components/Header/Navbar";
 import Services from "../components/Services";
 import Steps from "../components/Steps";
@@ -28,13 +28,13 @@ const App = () => {
   }, [navigate]);
 
   return (
-    <div className="flex flex-col almarai-extrabold w-full">
+    <div className="flex flex-col almarai-extrabold w-full bg-background">
       <Navbar />
       <Hero />
       <Types />
-      <Steps />
-      {/* <Test /> */}
-      <Services />
+      {/* <Steps /> */}
+      <Test />
+      {/* <Services /> */}
 
       <Footer />
     </div>

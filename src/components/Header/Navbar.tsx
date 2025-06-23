@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 //@ts-expect-error dsff
 import { fadeIn } from "../../utils/motion";
 import { links } from "../../data";
-import Image from "../../assets/images/logo-white.webp";
+import Image from "../../assets/images/hsd.png";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true }}
-      className="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-sm border-b z-[100] border-gray-100 shadow-sm"
+      className="fixed top-0 left-0 right-0 bg-[#1E1B16] backdrop-blur-sm border-b z-[100]  shadow-sm"
     >
       <div className="w-full flex justify-between items-center container mx-auto px-4 sm:px-6 lg:px-8 md:h-20 h-16">
         {/* Logo */}
@@ -27,7 +27,7 @@ const Navbar: React.FC = () => {
           <img
             src={Image}
             alt="Logo"
-            style={{ width: "50px", height: "50px", objectFit: "cover" }}
+            style={{ width: "100px", height: "100px", objectFit: "cover" }}
           />
         </motion.div>
 
@@ -38,9 +38,9 @@ const Navbar: React.FC = () => {
           aria-label={isMenuOpen ? "Close menu" : "Open menu"} // Added aria-label for accessibility
         >
           {isMenuOpen ? (
-            <HiX className="h-6 w-6" />
+            <HiX className="h-6 w-6 text-text" />
           ) : (
-            <HiMenu className="h-6 w-6" />
+            <HiMenu className="h-6 w-6 text-text" />
           )}
         </motion.button>
 
@@ -58,8 +58,8 @@ const Navbar: React.FC = () => {
               className={`text-sm font-medium relative after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 hover:after:w-full after:bg-primary after:transition-all
                 ${
                   activeLink === link.href
-                    ? "text-primary after:w-full"
-                    : "text-gray-600 hover:text-gray-900"
+                    ? "text-[#AB7C22] after:w-full"
+                    : "text-[#FAF6EF] hover:text-[#AB7C22]"
                 }`}
             >
               {link.label}

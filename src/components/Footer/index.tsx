@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FaWhatsapp } from "react-icons/fa";
 import { SiGooglemaps } from "react-icons/si";
 import { IoCallOutline } from "react-icons/io5";
-import Image from "../../assets/images/logo-white.webp";
+import Image from "../../assets/images/hsd.png";
 //@ts-expect-error dsff
 import { fadeIn } from "../../utils/motion";
 
@@ -13,7 +13,7 @@ const Footer: FC = () => {
       variants={fadeIn("up", 0.2)}
       initial="hidden"
       whileInView="show"
-      className="bg-gray-50 py-12"
+      className="bg-[#15130F] py-12"
     >
       <div className=" mx-auto px-4 sm:px-6 lg:px-8">
         {/* Top Section */}
@@ -26,11 +26,11 @@ const Footer: FC = () => {
             <img
               src={Image}
               alt="logo"
-              className="w-[100px] h-auto object-contain mb-4"
+              className="w-[200px] h-auto object-contain mb-4"
             />
             <motion.p
               variants={fadeIn("up", 0.5)}
-              className="text-gray-600 text-sm leading-relaxed mb-6"
+              className="text-text text-sm leading-relaxed mb-6"
             >
               نهدف في مثري للخدمات البيئية إلى تقديم حلول عملية ومتكاملة لإدارة
               المخلفات، بخدمة سريعة، موثوقة، وملتزمة بأعلى المعايير البيئية. رضا
@@ -71,14 +71,14 @@ const Footer: FC = () => {
           >
             {/* Links Section */}
             <div>
-              <h2 className="text-lg font-bold text-primary mb-4">
+              <h2 className="text-lg font-bold text-text mb-4">
                 روابط مهمة
               </h2>
-              <ul className="space-y-3 text-[16px] text-gray-700 font-medium">
+              <ul className="space-y-3 text-[16px] text-subtext font-medium">
                 <motion.li whileHover={{ x: 5 }}>
                   <a
                     href="/#services"
-                    className="hover:text-red-600 transition-colors cursor-pointer"
+                    className="hover:text-primary transition-colors cursor-pointer"
                   >
                     خدماتنا
                   </a>
@@ -86,7 +86,7 @@ const Footer: FC = () => {
                 <motion.li whileHover={{ x: 5 }}>
                   <a
                     href="/#about"
-                    className="hover:text-red-600 transition-colors cursor-pointer"
+                    className="hover:text-primary transition-colors cursor-pointer"
                   >
                     من نحن
                   </a>
@@ -94,7 +94,7 @@ const Footer: FC = () => {
                 <motion.li whileHover={{ x: 5 }}>
                   <a
                     href="/#contact"
-                    className="hover:text-red-600 transition-colors cursor-pointer"
+                    className="hover:text-primary transition-colors cursor-pointer"
                   >
                     تواصل معنا
                   </a>
@@ -102,7 +102,7 @@ const Footer: FC = () => {
                 <motion.li whileHover={{ x: 5 }}>
                   <a
                     href="/#testimonials"
-                    className="hover:text-red-600 transition-colors cursor-pointer"
+                    className="hover:text-primary transition-colors cursor-pointer"
                   >
                     آراء العملاء
                   </a>
@@ -112,14 +112,14 @@ const Footer: FC = () => {
 
             {/* Certifications Section */}
             <div>
-              <h3 className="text-lg font-bold text-primary mb-4">
+              <h3 className="text-lg font-bold text-text mb-4">
                 الشهادات والرخص
               </h3>
-              <ul className="space-y-3 text-[16px] text-gray-700 font-medium">
+              <ul className="space-y-3 text-[16px] text-subtext font-medium">
                 <motion.li whileHover={{ x: 5 }}>
                   <a
                     href="#"
-                    className="hover:text-red-600 transition-colors cursor-pointer"
+                    className="hover:text-primary transition-colors cursor-pointer"
                   >
                     المركز الوطني لإدارة النفايات (MWAN)
                   </a>
@@ -127,7 +127,7 @@ const Footer: FC = () => {
                 <motion.li whileHover={{ x: 5 }}>
                   <a
                     href="#"
-                    className="hover:text-red-600 transition-colors cursor-pointer"
+                    className="hover:text-primary transition-colors cursor-pointer"
                   >
                     المركز الوطني للرقابة على الالتزام البيئي
                   </a>
@@ -135,7 +135,7 @@ const Footer: FC = () => {
                 <motion.li whileHover={{ x: 5 }}>
                   <a
                     href="#"
-                    className="hover:text-red-600 transition-colors cursor-pointer"
+                    className="hover:text-primary transition-colors cursor-pointer"
                   >
                     شهادة سلامة بيئية معتمدة
                   </a>
@@ -152,10 +152,10 @@ const Footer: FC = () => {
         >
           <motion.div
             variants={fadeIn("up", 0.9)}
-            className="flex flex-col md:flex-row justify-between items-center text-center gap-4 text-sm text-gray-600"
+            className="flex flex-col md:flex-row justify-between items-center text-center gap-4 text-sm text-primary"
           >
             <span>
-              © {new Date().getFullYear()} مثرى للخدمات البيئية – جميع الحقوق
+              © {new Date().getFullYear()}   حشد لتأجير السيارات – جميع الحقوق
               محفوظة
             </span>
             <span>

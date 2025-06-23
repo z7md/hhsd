@@ -1,6 +1,8 @@
 
 import t1 from "../assets/images/hawe1.webp";
 import t2 from "../assets/images/hawe2.webp";
+import t3 from "../assets/images/sa.webp";
+import t4 from "../assets/images/tesla.png";
 // import t3 from "../assets/images/t3.png";
 // import t4 from "../assets/images/t4.png";
 // import t5 from "../assets/images/t5.png";
@@ -58,9 +60,64 @@ export const steps = [
 
 
 export const types = [
-  { title: "20 ياردة", price: "250 ريال", image: t1, type: "نوع 1" },
-  { title: "12 ياردة", price: "200 ريال", image: t2, type: "نوع 1" },
+  {
+    title: "هيونداي جراند i10",
+    year: "2024",
+    image: t3,
+    priceBefore: 175,
+    priceAfter: 152.25,
+    freeKm: 200,
+    passengers: 4,
+    bags: 2,
+    doors: 4,
+    transmission: "A", // أو "M"
+    ac: true,
+    type: "اقتصادية"
+  },
+  {
+    title: "كيا بيجاس",
+    year: "2023",
+    image: t2,
+    priceBefore: 175,
+    priceAfter: 157.5,
+    freeKm: 200,
+    passengers: 5,
+    bags: 2,
+    doors: 4,
+    transmission: "A",
+    ac: true,
+    type: "اقتصادية"
+  },
+    {
+    title: "اكورد",
+    year: "2020",
+    image: t2,
+    priceBefore: 300,
+    priceAfter: 157.5,
+    freeKm: 400,
+    passengers: 5,
+    bags: 2,
+    doors: 4,
+    transmission: "A",
+    ac: true,
+    type: "داشرة"
+  },
+      {
+    title: "سوبر ترك",
+    year: "2025",
+    image: t4,
+    priceBefore: 5000,
+    priceAfter: 4000,
+    freeKm: 400,
+    passengers: 5,
+    bags: 2,
+    doors: 2,
+    transmission: "A",
+    ac: true,
+    type: "واو"
+  },
 ];
+
 
 export const plans = [
   {
@@ -127,15 +184,15 @@ export const services = [
 
 export const links = [
   { label: "الصفحة الرئيسية", href: "#home" },
-  { label: "أطلب حاوية", href: "#booking" },
-  { label: "من نحن", href: "#about" },
-  // { label: "أراء العملاء", href: "#testimonials" },
+  { label: "أطلب سيارة", href: "#booking" },
+  // { label: "من نحن", href: "#about" },
+  { label: "أراء العملاء", href: "#testimonials" },
 ];
 export const links1 = [
   { label: "الصفحة الرئيسية", href: "/" },
-  { label: "أطلب حاوية", href: "/booking" },
-  { label: "من نحن", href: "/about" },
-  // { label: "أراء العملاء", href: "/mathraa/testimonials" },
+  { label: "أطلب سيارة", href: "/booking" },
+  // { label: "من نحن", href: "/about" },
+  { label: "أراء العملاء", href: "/testimonials" },
 ];
 export const selects = [
   {
