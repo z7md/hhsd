@@ -28,7 +28,6 @@ const RentalContext = createContext<RentalContextType | undefined>(undefined);
 
 // Provider component
 export const RentalProvider = ({ children }: { children: ReactNode }) => {
-  const today = new Date().toISOString().split("T")[0];
 
   const [rentalDate, setRentalDate] = useState<string>("");
   const [returnDate, setReturnDate] = useState<string>("");
