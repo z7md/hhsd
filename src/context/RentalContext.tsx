@@ -30,7 +30,7 @@ const RentalContext = createContext<RentalContextType | undefined>(undefined);
 export const RentalProvider = ({ children }: { children: ReactNode }) => {
   const today = new Date().toISOString().split("T")[0];
 
-  const [rentalDate, setRentalDate] = useState<string>(today);
+  const [rentalDate, setRentalDate] = useState<string>("");
   const [returnDate, setReturnDate] = useState<string>("");
   const [location, setLocation] = useState<string>("اختر الموقع");
   const [customLocation, setCustomLocation] = useState<Coordinates>(null);

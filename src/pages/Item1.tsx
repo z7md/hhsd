@@ -18,8 +18,7 @@ const Item = () => {
     window.scrollTo(0, 0);
   }, [car, navigate]);
 
-  // خلي التواريخ تبدأ فاضية
-  // const today = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
   const [showMapTooltip, setShowMapTooltip] = useState(false);
 
   const {
@@ -32,13 +31,6 @@ const Item = () => {
     setCustomLocation,
     customLocation,
   } = useRental();
-
-  // حساب الحد الأدنى لتاريخ الإرجاع (يوم واحد بعد تاريخ الإيجار)
-  const minReturnDate = rentalDate
-    ? new Date(new Date(rentalDate).getTime() + 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split("T")[0]
-    : "";
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -77,6 +69,16 @@ const Item = () => {
   };
 
   if (!car) return null;
+
+  // متى يسمح بتفعيل تاريخ الإرجاع؟
+  const isReturnDateEnabled = rentalDate !== "" && rentalDate !== null;
+
+  // حساب الحد الأدنى لتاريخ الإرجاع (اليوم التالي لتاريخ الإيجار)
+  const minReturnDate = isReturnDateEnabled
+    ? new Date(new Date(rentalDate).getTime() + 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0]
+    : today;
 
   return (
     <div className="w-full flex flex-col almarai-extrabold justify-center items-center bg-background text-text">
@@ -135,26 +137,40 @@ const Item = () => {
             <label className="text-primary font-medium">تاريخ الإيجار</label>
             <input
               type="date"
-              min={new Date().toISOString().split("T")[0]}
-              value={rentalDate || ""}
-              onChange={(e) => {
-                setRentalDate(e.target.value);
-                if (returnDate && e.target.value >= returnDate) {
-                  setReturnDate("");
-                }
-              }}
+              min={today}
+              value={rentalDate}
+              onChange={(e) => setRentalDate(e.target.value)}
               className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text"
+              placeholder="اختر تاريخ الإيجار"
             />
           </div>
+
+          {/* رسالة تطلب اختيار تاريخ الإيجار */}
+          {!isReturnDateEnabled && (
+            <p className="text-red-500 font-semibold text-right">
+              يرجى اختيار تاريخ الإيجار أولاً لتمكين اختيار تاريخ الإرجاع
+            </p>
+          )}
+
+          {/* تاريخ الإرجاع */}
           <div className="flex flex-col gap-2">
             <label className="text-primary font-medium">تاريخ الإرجاع</label>
             <input
               type="date"
-              min={minReturnDate || new Date().toISOString().split("T")[0]}
-              value={returnDate || ""}
+              min={minReturnDate}
+              value={returnDate}
               onChange={(e) => setReturnDate(e.target.value)}
-              disabled={!rentalDate}
-              className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text disabled:bg-gray-200"
+              disabled={!isReturnDateEnabled}
+              className={`w-full h-[60px] rounded px-3 outline-none text-right bg-surface border ${
+                isReturnDateEnabled
+                  ? "border-primary text-text"
+                  : "border-gray-400 text-gray-400 cursor-not-allowed"
+              }`}
+              placeholder={
+                isReturnDateEnabled
+                  ? "اختر تاريخ الإرجاع"
+                  : "اختر تاريخ الإيجار أولاً"
+              }
             />
           </div>
 
@@ -162,7 +178,7 @@ const Item = () => {
           <div className="flex flex-col gap-2">
             <label className="text-primary font-medium">الموقع</label>
             <select
-              value={rentalLocation || ""}
+              value={rentalLocation}
               onChange={(e) => {
                 const selected = e.target.value;
                 setLocation(selected);
@@ -177,7 +193,7 @@ const Item = () => {
               }}
               className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text cursor-pointer appearance-none"
             >
-              <option disabled>
+              <option value="اختر الموقع" disabled>
                 اختر الموقع
               </option>
               <option value="الاستلام من الفرع">الاستلام من الفرع</option>
@@ -241,39 +257,39 @@ const Item = () => {
           )}
 
           {/* زر واتساب */}
-          <span
-            className="mt-1 w-full h-[60px] px-3 font-bold text-center flex justify-center items-center text-text bg-primary rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:brightness-90 hover:shadow-lg"
-            onClick={() => {
-              const phone = "966505977705";
+<span
+  className="mt-1 w-full h-[60px] px-3 font-bold text-center flex justify-center items-center text-text bg-primary rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:brightness-90 hover:shadow-lg"
+  onClick={() => {
+    const phone = "966505977705";
+    const mapLink = customLocation
+      ? `https://www.google.com/maps?q=${customLocation.lat},${customLocation.lng}`
+      : "لا يوجد موقع محدد";
 
-              let locationText = "لم يتم اختيار الموقع";
-              if (rentalLocation === "الاستلام من الفرع") {
-                locationText =
-                  "الاستلام من الفرع - طريق الملك فهد، الرياض\n" +
-                  "https://www.google.com/maps?q=24.7136,46.6753";
-              } else if (rentalLocation === "حدد على الخريطة" && customLocation) {
-                locationText = `خدمة التوصيل - الموقع: https://www.google.com/maps?q=${customLocation.lat},${customLocation.lng}`;
-              }
+    const locationText =
+      rentalLocation === "الاستلام من الفرع"
+        ? "الاستلام من الفرع - طريق الملك فهد، الرياض\nhttps://www.google.com/maps?q=24.7136,46.6753"
+        : `خدمة التوصيل: ${mapLink}`;
 
-              const message = `**طلب حجز سيارة**
+    const endDateText = returnDate ? returnDate : "تاريخ النهاية لم يحدد";
+
+    const message = `**طلب حجز سيارة**
 
 *النوع:* ${car.الاسم} - ${car.الموديل}
 *السعر:* ${car["السعر بعد"]} ريال
-*تاريخ الإيجار:* ${rentalDate || "-"}
-*تاريخ الإرجاع:* ${returnDate || "-"}
-*الموقع:* 
-${locationText}
+*تاريخ الإيجار:* ${rentalDate}
+*تاريخ الإرجاع:* ${endDateText}
+*الموقع:* ${locationText}
 
 تم الإرسال من الموقع.`;
 
-              const url = `https://wa.me/${phone}?text=${encodeURIComponent(
-                message
-              )}`;
-              window.open(url, "_blank");
-            }}
-          >
-            أطلب الآن
-          </span>
+    const url = `https://wa.me/${phone}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(url, "_blank");
+  }}
+>
+  أطلب الآن
+</span>
         </div>
       </motion.div>
 
