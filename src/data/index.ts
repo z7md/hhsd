@@ -188,7 +188,7 @@ export const links = [
   { label: "أراء العملاء", href: "/hhsd#testimonials" },
 ];
 export const links1 = [
-  { label: "الصفحة الرئيسية", href: "/" },
+  { label: "الصفحة الرئيسية", href: "/hhsd" },
   { label: "أطلب سيارة", href: "/hhsd/booking" },
   // { label: "من نحن", href: "/about" },
   { label: "أراء العملاء", href: "/hhsd/testimonials" },

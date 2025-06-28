@@ -9,28 +9,36 @@ import { useRental } from "../context/RentalContext";
 import { fadeIn } from "../utils/motion";
 
 const Item = () => {
-  const { state } = useLocation();
+  const location = useLocation();
   const navigate = useNavigate();
-  const car = state;
+  const car = location.state;
 
   useEffect(() => {
     if (!car) navigate("/");
     window.scrollTo(0, 0);
   }, [car, navigate]);
 
-  const today = new Date().toISOString().split("T")[0];
+  // خلي التواريخ تبدأ فاضية
+  // const today = new Date().toISOString().split("T")[0];
   const [showMapTooltip, setShowMapTooltip] = useState(false);
 
   const {
     rentalDate,
     returnDate,
-    location,
+    location: rentalLocation,
     setRentalDate,
     setReturnDate,
     setLocation,
     setCustomLocation,
     customLocation,
   } = useRental();
+
+  // حساب الحد الأدنى لتاريخ الإرجاع (يوم واحد بعد تاريخ الإيجار)
+  const minReturnDate = rentalDate
+    ? new Date(new Date(rentalDate).getTime() + 24 * 60 * 60 * 1000)
+        .toISOString()
+        .split("T")[0]
+    : "";
 
   const getCurrentLocation = () => {
     if (navigator.geolocation) {
@@ -56,13 +64,13 @@ const Item = () => {
   };
 
   useEffect(() => {
-    if (location === "حدد على الخريطة") {
+    if (rentalLocation === "حدد على الخريطة") {
       setShowMapTooltip(true);
       getCurrentLocation();
     } else {
       setShowMapTooltip(false);
     }
-  }, [location]);
+  }, [rentalLocation]);
 
   const handleTooltipClose = () => {
     setShowMapTooltip(false);
@@ -94,30 +102,28 @@ const Item = () => {
           {/* صورة السيارة */}
           <div className="relative h-[230px] flex items-center justify-center bg-section">
             <img
-              src={car.image}
-              alt={car.title}
+              src={car.image_url}
+              alt={car.الاسم}
               className="h-full object-contain transition-transform duration-300 hover:scale-105 cursor-pointer"
               onClick={() => navigate("/item", { state: car })}
             />
             <div className="absolute top-4 left-4 bg-primary text-text text-sm font-bold px-4 py-1 rounded-lg shadow-md">
-              {car.priceAfter} ريال / يوم
+              {car["السعر بعد"]} ريال / يوم
             </div>
           </div>
 
           {/* تفاصيل السيارة */}
           <div className="p-5 text-right space-y-3">
             <h2 className="text-2xl font-bold text-text">
-              {car.title} - {car.year}
+              {car.الاسم} - {car.الموديل}
             </h2>
             <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm leading-relaxed text-subtext">
-              <div>👥 الركاب: {car.passengers}</div>
-              <div>🧳 الشنط: {car.bags}</div>
-              <div>🚪 الأبواب: {car.doors}</div>
-              <div>
-                ⚙️ الجير: {car.transmission === "A" ? "أوتوماتيك" : "عادي"}
-              </div>
-              <div>❄️ مكيف: {car.ac ? "نعم" : "لا"}</div>
-              <div>📏 المسافة المجانية: {car.freeKm} كم</div>
+              <div>👥 الركاب: {car.الركاب}</div>
+              <div>🧳 الشنط: {car.الشنط}</div>
+              <div>🚪 الأبواب: {car.الابواب}</div>
+              <div>⚙️ الجير: {car.القير}</div>
+              <div>❄️ مكيف: {car.مكيف ? "نعم" : "لا"}</div>
+              <div>📏 المسافة المجانية: {car.كيلومترات} كم</div>
             </div>
           </div>
         </motion.div>
@@ -129,9 +135,14 @@ const Item = () => {
             <label className="text-primary font-medium">تاريخ الإيجار</label>
             <input
               type="date"
-              min={today}
-              value={rentalDate}
-              onChange={(e) => setRentalDate(e.target.value)}
+              min={new Date().toISOString().split("T")[0]}
+              value={rentalDate || ""}
+              onChange={(e) => {
+                setRentalDate(e.target.value);
+                if (returnDate && e.target.value >= returnDate) {
+                  setReturnDate("");
+                }
+              }}
               className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text"
             />
           </div>
@@ -139,10 +150,11 @@ const Item = () => {
             <label className="text-primary font-medium">تاريخ الإرجاع</label>
             <input
               type="date"
-              min={today}
-              value={returnDate}
+              min={minReturnDate || new Date().toISOString().split("T")[0]}
+              value={returnDate || ""}
               onChange={(e) => setReturnDate(e.target.value)}
-              className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text"
+              disabled={!rentalDate}
+              className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text disabled:bg-gray-200"
             />
           </div>
 
@@ -150,7 +162,7 @@ const Item = () => {
           <div className="flex flex-col gap-2">
             <label className="text-primary font-medium">الموقع</label>
             <select
-              value={location}
+              value={rentalLocation || ""}
               onChange={(e) => {
                 const selected = e.target.value;
                 setLocation(selected);
@@ -165,7 +177,7 @@ const Item = () => {
               }}
               className="w-full h-[60px] rounded px-3 outline-none text-right bg-surface border border-primary text-text cursor-pointer appearance-none"
             >
-              <option value="اختر الموقع" disabled>
+              <option disabled>
                 اختر الموقع
               </option>
               <option value="الاستلام من الفرع">الاستلام من الفرع</option>
@@ -174,7 +186,7 @@ const Item = () => {
           </div>
 
           {/* عرض موقع المستخدم على الخريطة */}
-          {location === "حدد على الخريطة" && (
+          {rentalLocation === "حدد على الخريطة" && (
             <div className="w-full h-[300px] rounded overflow-hidden mt-3 relative">
               {showMapTooltip && (
                 <div
@@ -205,7 +217,7 @@ const Item = () => {
           )}
 
           {/* عرض موقع الفرع الثابت */}
-          {location === "الاستلام من الفرع" && (
+          {rentalLocation === "الاستلام من الفرع" && (
             <div className="w-full mt-3 flex flex-col gap-3 text-right">
               {/* خريطة الفرع الثابتة */}
               <div className="h-[300px] rounded overflow-hidden border border-border">
@@ -233,21 +245,24 @@ const Item = () => {
             className="mt-1 w-full h-[60px] px-3 font-bold text-center flex justify-center items-center text-text bg-primary rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 hover:brightness-90 hover:shadow-lg"
             onClick={() => {
               const phone = "966505977705";
-              const mapLink = customLocation
-                ? `https://www.google.com/maps?q=${customLocation.lat},${customLocation.lng}`
-                : "لا يوجد موقع محدد";
+
+              let locationText = "لم يتم اختيار الموقع";
+              if (rentalLocation === "الاستلام من الفرع") {
+                locationText =
+                  "الاستلام من الفرع - طريق الملك فهد، الرياض\n" +
+                  "https://www.google.com/maps?q=24.7136,46.6753";
+              } else if (rentalLocation === "حدد على الخريطة" && customLocation) {
+                locationText = `خدمة التوصيل - الموقع: https://www.google.com/maps?q=${customLocation.lat},${customLocation.lng}`;
+              }
 
               const message = `**طلب حجز سيارة**
 
-*النوع:* ${car.title} - ${car.year}
-*السعر:* ${car.priceAfter} ريال
-*تاريخ الإيجار:* ${rentalDate}
-*تاريخ الإرجاع:* ${returnDate}
-*الموقع:* ${
-                location === "الاستلام من الفرع"
-                  ? "الاستلام من الفرع - طريق الملك فهد، الرياض"
-                  : mapLink
-              }
+*النوع:* ${car.الاسم} - ${car.الموديل}
+*السعر:* ${car["السعر بعد"]} ريال
+*تاريخ الإيجار:* ${rentalDate || "-"}
+*تاريخ الإرجاع:* ${returnDate || "-"}
+*الموقع:* 
+${locationText}
 
 تم الإرسال من الموقع.`;
 
