@@ -17,10 +17,10 @@ interface CarType {
   القير: string;
   مكيف: boolean;
   كيلومترات: number;
-  "السعر قبل": number;
-  "السعر بعد": number;
+  "السعر_قبل": number;
+  "السعر_بعد": number;
   متاحة: boolean;
-  "تاريخ الاتاحة": string;
+  "تاريخ_الاتاحة": string;
 }
 
 const Types: FC = () => {
@@ -102,7 +102,7 @@ const Types: FC = () => {
                   <p className="text-2xl font-bold mb-2">غير متوفرة حالياً</p>
                   <p>تاريخ التوافر المتوقع:</p>
                   <p className="font-semibold">
-                    {new Date(item["تاريخ الاتاحة"]).toLocaleDateString("ar-EG", {
+                    {new Date(item["تاريخ_الاتاحة"]).toLocaleDateString("ar-EG", {
                       year: "numeric",
                       month: "long",
                       day: "numeric",
@@ -158,10 +158,10 @@ const Types: FC = () => {
                 {/* السعر */}
                 <div className="mt-3 text-right">
                   <div className="text-base text-subtext line-through">
-                    SAR {item["السعر قبل"]}
+                    SAR {item["السعر_قبل"]}
                   </div>
                   <div className="text-2xl font-extrabold text-primary leading-snug">
-                    SAR {item["السعر بعد"]}
+                    SAR {item["السعر_بعد"]}
                   </div>
                 </div>
               </div>
