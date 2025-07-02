@@ -21,7 +21,7 @@ interface Car {
 }
 
 const Admin = () => {
-  const [user, setUser] = useState<any>(null);
+  const [setUser] = useState<any>(null);
   const [cars, setCars] = useState<Car[]>([]);
   const [car, setCar] = useState<Car>({
     الاسم: "",

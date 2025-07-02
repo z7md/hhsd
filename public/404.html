@@ -5,11 +5,18 @@
     <title>Redirecting...</title>
     <script>
       (function () {
-        // Save the full path (pathname + query + hash)
-        const path = window.location.pathname + window.location.search + window.location.hash;
+        const base = "/hhsd";
+        let path = window.location.pathname + window.location.search + window.location.hash;
+
+        // حذف /hhsd من البداية
+        if (path.startsWith(base)) {
+          path = path.slice(base.length);
+        }
+
         localStorage.setItem("redirect_path", path);
-        // Redirect to root where React app will handle it
-        window.location.replace("/hhsd");
+
+        // إعادة التوجيه إلى /hhsd فقط
+        window.location.replace(base);
       })();
     </script>
   </head>

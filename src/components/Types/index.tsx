@@ -52,7 +52,7 @@ const Types: FC = () => {
 
   return (
     <section id="booking" className="bg-background py-16">
-      <div className="w-full lg:px-[310px] px-5 flex flex-col gap-8 items-center justify-center">
+      <div className="w-full lg:px-[310px] px-5 flex flex-col gap-8 items-center justify-center mt-[140px]">
         <motion.span
           variants={textVariant(0.2)}
           initial="hidden"
